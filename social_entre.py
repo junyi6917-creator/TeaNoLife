@@ -1,10 +1,16 @@
 import streamlit as st
 
-# Page config
+# ------------------------------
+# Page configuration
+# ------------------------------
 st.set_page_config(page_title="Tea No Life", page_icon="🍵", layout="centered")
-st.markdown("<h1 style='text-align: center; color: #90ee90;'>Tea No Life</h1>", unsafe_allow_html=True)
 
+# Header with smaller font
+st.markdown("<h2 style='text-align: center; color: #90ee90; font-size:24px;'>Tea No Life</h2>", unsafe_allow_html=True)
+
+# ------------------------------
 # Items and prices
+# ------------------------------
 items = [
     ("Milk Tea", 5.99),
     ("Oolong Tea", 2.49),
@@ -15,24 +21,26 @@ items = [
     ("Set D", 14.99)
 ]
 
+# ------------------------------
 # Reset flag
+# ------------------------------
 if "reset_trigger" not in st.session_state:
     st.session_state["reset_trigger"] = False
 
-# Reset button
 if st.button("Reset All"):
     st.session_state["reset_trigger"] = True
 
-# Initialize session state for each item
+# Initialize session state for items
 for name, price in items:
     if name not in st.session_state or st.session_state["reset_trigger"]:
         st.session_state[name] = 0
 
-# After initializing, clear the reset trigger
 st.session_state["reset_trigger"] = False
 
-# Display quantity inputs
-st.markdown("<div style='color: #90ee90; font-size:20px;'>Select quantities:</div>", unsafe_allow_html=True)
+# ------------------------------
+# Quantity selectors
+# ------------------------------
+st.markdown("<div style='color: #90ee90; font-size:18px;'>Select quantities:</div>", unsafe_allow_html=True)
 
 total_sales = 0.0
 for name, price in items:
@@ -46,5 +54,7 @@ for name, price in items:
     )
     total_sales += qty * price
 
-# Display total sales
-st.markdown(f"<h2 style='text-align:center; color: #90ee90;'>Total Sales: RM{total_sales:.2f}</h2>", unsafe_allow_html=True)
+# ------------------------------
+# Display total sales with smaller font
+# ------------------------------
+st.markdown(f"<h3 style='text-align:center; color: #90ee90; font-size:22px;'>Total Sales: RM{total_sales:.2f}</h3>", unsafe_allow_html=True)
