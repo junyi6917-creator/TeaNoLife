@@ -1,19 +1,8 @@
 import streamlit as st
 
-# ------------------------------
-# Page configuration
-# ------------------------------
-st.set_page_config(
-    page_title="Tea No Life",
-    page_icon="🍵",
-    layout="centered"
-)
-
+st.set_page_config(page_title="Tea No Life", page_icon="🍵", layout="centered")
 st.markdown("<h1 style='text-align: center; color: #90ee90;'>Tea No Life</h1>", unsafe_allow_html=True)
 
-# ------------------------------
-# Items and prices
-# ------------------------------
 items = [
     ("Milk Tea", 5.99),
     ("Oolong Tea", 2.49),
@@ -24,20 +13,14 @@ items = [
     ("Set D", 14.99)
 ]
 
-# ------------------------------
 # Initialize session state
-# ------------------------------
 for name, price in items:
     if name not in st.session_state:
         st.session_state[name] = 0
 
-# ------------------------------
-# Quantity selectors
-# ------------------------------
 st.markdown("<div style='color: #90ee90; font-size:20px;'>Select quantities:</div>", unsafe_allow_html=True)
 
 total_sales = 0.0
-
 for name, price in items:
     qty = st.number_input(
         f"{name} (RM{price:.2f})",
@@ -49,17 +32,10 @@ for name, price in items:
     )
     total_sales += qty * price
 
-# ------------------------------
-# Display total sales
-# ------------------------------
-st.markdown(
-    f"<h2 style='text-align:center; color: #90ee90;'>Total Sales: RM{total_sales:.2f}</h2>",
-    unsafe_allow_html=True
-)
+st.markdown(f"<h2 style='text-align:center; color: #90ee90;'>Total Sales: RM{total_sales:.2f}</h2>", unsafe_allow_html=True)
 
-# ------------------------------
-# Reset button
-# ------------------------------
+# Reset button (fixed)
 if st.button("Reset All"):
     for name, price in items:
         st.session_state[name] = 0
+    st.experimental_rerun()  # refresh the app to apply reset
