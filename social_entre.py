@@ -11,10 +11,13 @@ st.markdown("<h2 style='text-align: center; color: #90ee90; font-size:24px;'>Tea
 # ------------------------------
 # Items and prices
 # ------------------------------
-items = [
+left_items = [
     ("Milk Tea", 5.99),
     ("Oolong Tea", 2.49),
-    ("Toast Roll", 3.49),
+    ("Toast Roll", 3.49)
+]
+
+right_items = [
     ("Set A", 8.99),
     ("Set B", 11.99),
     ("Set C", 9.49),
@@ -27,40 +30,52 @@ items = [
 if "reset_trigger" not in st.session_state:
     st.session_state["reset_trigger"] = False
 
-# Reset button at the top
+# Reset button at top
 if st.button("Reset All"):
     st.session_state["reset_trigger"] = True
 
 # ------------------------------
-# Initialize session state for items
+# Initialize session state
 # ------------------------------
-for name, price in items:
+for name, price in left_items + right_items:
     if name not in st.session_state or st.session_state["reset_trigger"]:
         st.session_state[name] = 0
 
-# Clear reset trigger after initializing
 st.session_state["reset_trigger"] = False
 
 # ------------------------------
-# Quantity selectors in 2 columns
+# Quantity selectors in two main columns
 # ------------------------------
 st.markdown("<div style='color: #90ee90; font-size:18px;'>Select quantities:</div>", unsafe_allow_html=True)
 
+main_cols = st.columns(2)  # left and right
 total = 0.0
-for i in range(0, len(items), 2):
-    cols = st.columns(2)
-    for j, col in enumerate(cols):
-        if i + j < len(items):
-            name, price = items[i + j]
-            qty = col.number_input(
-                f"{name} (RM{price:.2f})",
-                min_value=0,
-                max_value=50,
-                value=st.session_state[name],
-                step=1,
-                key=name
-            )
-            total += qty * price
+
+# Left column
+with main_cols[0]:
+    for name, price in left_items:
+        qty = st.number_input(
+            f"{name} (RM{price:.2f})",
+            min_value=0,
+            max_value=50,
+            value=st.session_state[name],
+            step=1,
+            key=name
+        )
+        total += qty * price
+
+# Right column
+with main_cols[1]:
+    for name, price in right_items:
+        qty = st.number_input(
+            f"{name} (RM{price:.2f})",
+            min_value=0,
+            max_value=50,
+            value=st.session_state[name],
+            step=1,
+            key=name
+        )
+        total += qty * price
 
 # ------------------------------
 # Display total
