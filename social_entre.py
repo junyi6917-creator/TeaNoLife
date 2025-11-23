@@ -27,6 +27,10 @@ items = [
 if "reset_trigger" not in st.session_state:
     st.session_state["reset_trigger"] = False
 
+# Reset button at the top
+if st.button("Reset All"):
+    st.session_state["reset_trigger"] = True
+
 # ------------------------------
 # Initialize session state for items
 # ------------------------------
@@ -62,11 +66,3 @@ for i in range(0, len(items), 2):
 # Display total
 # ------------------------------
 st.markdown(f"<h3 style='text-align:center; color: #90ee90; font-size:20px;'>Total: RM{total:.2f}</h3>", unsafe_allow_html=True)
-
-# ------------------------------
-# Reset button at bottom
-# ------------------------------
-if st.button("Reset All"):
-    for name, price in items:
-        st.session_state[name] = 0
-    st.experimental_rerun()
